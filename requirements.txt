@@ -9,3 +9,4 @@ torch==2.2.0
 transformers==4.48.1
 uvicorn
 python-Levenshtein
+python-multipart
