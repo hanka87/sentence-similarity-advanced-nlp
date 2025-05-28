@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Text Similarity Calculator using </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        
+        .container {
+            width: 80%;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            color: #00698f;
+            text-align: center;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            height: 100px; /* Set the height of the textarea */
+        }
+        
+        input[type="submit"] {
+            background-color: #00698f;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        input[type="submit"]:hover {
+            background-color: #00567f;
+        }
+        
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Text Similarity Calculator (SBERT) and weighted method</h1>
+        <form action="" method="post">
+            <label for="text1">Text 1:</label>
+            <textarea id="text1" name="text1">{{ text1 }}</textarea>
+            <label for="text2">Text 2:</label>
+            <textarea id="text2" name="text2">{{ text2 }}</textarea>
+            <input type="submit" value="Calculate Similarity">
+        </form>
+        {% if score is not none %}
+            <div class="result">
+                <h2>Result:</h2>
+                <p>Similarity Score: <span style="color: #00698f; font-weight: bold;">{{ score }}</span></p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
