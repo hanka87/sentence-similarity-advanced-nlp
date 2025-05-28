@@ -1,4 +1,3 @@
-# here i have imported all necessary librearies 
 import numpy as np
 from sentence_transformers import SentenceTransformer
 from fuzzywuzzy import fuzz
@@ -18,8 +17,6 @@ THE STRUCTURE OF THS CODE IS AS FOLLOWS:
 2. semantic similarity (i used sentence-transformers as it is a state-of-the-art model for semantic similarity)
 3. similarity calculation (i used fuzzywuzzy and difflib for calculating weighted  similarity scores)
 4. input function (to take text from user and return the similarity score)
-
-
 """
 
 """data preprocessing code block here we tokenize, remove stopwords(shortcuts etc ) and other basic things ,"""
@@ -27,13 +24,11 @@ nltk.download('punkt', quiet=True)
 nltk.download('stopwords', quiet=True)
 nltk.download('wordnet', quiet=True)
 
-
-
 """to achieve SOTA accuracy i have used this model to grasp semantic meaning of text 
-more details about this model can be found in this page https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2"""
+more details about this model can be found in this page https://huggingface.co/sentence-transformers/paraphrase-albert-small-v2"""
 
-
-sbert_model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
+# Using lighter model for Render compatibility
+sbert_model = SentenceTransformer('paraphrase-albert-small-v2', device='cpu')  # ~200MB RAM
 
 def preprocess_text(text):
     """Comprehensive text preprocessing"""
@@ -56,14 +51,9 @@ def preprocess_text(text):
     
     return ' '.join(tokens)
 
-
-
 """after the cleaning now we can calculate similarity score using different methods  
 PLEASE NOTE: i have used "weighted calculation" technique bcoz this is an unlabelled problem 
 and while trying different combinations of weights i found the below combination to work best """
-
-
-
 
 def calculate_similarity(text1, text2):
     """Calculate weighted similarity score (0-1)"""
@@ -74,12 +64,15 @@ def calculate_similarity(text1, text2):
     #here we calculate similarity score using the model we loaded above
     emb1 = sbert_model.encode(text1_clean, convert_to_tensor=True)
     emb2 = sbert_model.encode(text2_clean, convert_to_tensor=True)
+    
+    # Normalize embeddings before dot product
+    emb1 = emb1 / np.linalg.norm(emb1)
+    emb2 = emb2 / np.linalg.norm(emb2)
     sbert_sim = np.dot(emb1, emb2.T).item()
     
     """ I have used  fuzzuwuzzy library as from my past experience i know that while wokring on semantic data
     this library and its fucntions are very handy more details in this page 
             https://pypi.org/project/fuzzywuzzy/"""
-            
             
     token_set_ratio = fuzz.token_set_ratio(text1_clean, text2_clean) / 100
     
@@ -100,8 +93,6 @@ def calculate_similarity(text1, text2):
     
     return max(0, min(1, weighted_score))
 
-
 """this will serve as input fucntion to ytake text from user and return the similarity scorEe"""
 def get_similarity_score(text1: str, text2: str) -> float:
-     
     return calculate_similarity(text1, text2)
