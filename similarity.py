@@ -23,6 +23,7 @@ THE STRUCTURE OF THS CODE IS AS FOLLOWS:
 nltk.download('punkt', quiet=True)
 nltk.download('stopwords', quiet=True)
 nltk.download('wordnet', quiet=True)
+nltk.download('punkt_tab')
 
 """to achieve SOTA accuracy i have used this model to grasp semantic meaning of text 
 more details about this model can be found in this page https://huggingface.co/sentence-transformers/paraphrase-albert-small-v2"""
